@@ -73,7 +73,6 @@ fun Context.findActivity(): Activity? = when (this) {
     else -> null
 }
 
-
 @Composable
 fun RestartGame() {
     val flag by remember {

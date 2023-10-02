@@ -64,7 +64,6 @@ class Monster(attack: Int, defence: Int, health: Int) : Creature(attack, defence
                 return@repeat
             }
         }
-
         if (attackSuccessful) {
             val damage = damageRange().random()
             player.takeDamage(damage)
