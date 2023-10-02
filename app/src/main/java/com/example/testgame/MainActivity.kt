@@ -23,21 +23,17 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.testgame.ui.theme.TestGameTheme
-import kotlinx.coroutines.flow.callbackFlow
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,33 +53,33 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-//@Composable
-//fun LockScreenOrientation(orientation: Int) {
-//    val context = LocalContext.current
-//    DisposableEffect(orientation) {
-//        val activity = context.findActivity() ?: return@DisposableEffect onDispose {}
-//        val originalOrientation = activity.requestedOrientation
-//        activity.requestedOrientation = orientation
-//        onDispose {
-//            // restore original orientation when view disappears
-//            activity.requestedOrientation = originalOrientation
-//        }
-//    }
-//}
-//
-//fun Context.findActivity(): Activity? = when (this) {
-//    is Activity -> this
-//    is ContextWrapper -> baseContext.findActivity()
-//    else -> null
-//}
+@Composable
+fun LockScreenOrientation(orientation: Int) {
+    val context = LocalContext.current
+    DisposableEffect(orientation) {
+        val activity = context.findActivity() ?: return@DisposableEffect onDispose {}
+        val originalOrientation = activity.requestedOrientation
+        activity.requestedOrientation = orientation
+        onDispose {
+            // restore original orientation when view disappears
+            activity.requestedOrientation = originalOrientation
+        }
+    }
+}
+
+fun Context.findActivity(): Activity? = when (this) {
+    is Activity -> this
+    is ContextWrapper -> baseContext.findActivity()
+    else -> null
+}
 
 
 @Composable
 fun RestartGame() {
-    var flag by remember {
+    val flag by remember {
         mutableStateOf(true)
     }
-    var healCount by remember {
+    val healCount by remember {
         mutableStateOf(0)
     }
     val player by remember {
@@ -93,14 +89,14 @@ fun RestartGame() {
         mutableStateOf(Monster((1..30).random(), (1..30).random(), 100))
 
     }
-    var playerDices by remember {
-        mutableStateOf(mutableListOf<Int>())
-    }
-    Game(player, monster, flag, healCount, playerDices)
+
+    Game(player, monster, flag, healCount)
 }
 
 @Composable
-fun Game(playerIn: Player, monsterIn: Monster, flagIn: Boolean, healCountIn: Int, playerDicesIn: List<Int>) {
+fun Game(playerIn: Player, monsterIn: Monster, flagIn: Boolean, healCountIn: Int) {
+
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
     var flag by remember {
         mutableStateOf(flagIn)
     }
@@ -120,7 +116,7 @@ fun Game(playerIn: Player, monsterIn: Monster, flagIn: Boolean, healCountIn: Int
         mutableStateOf(false)
     }
     var playerDices by remember {
-        mutableStateOf(mutableListOf<Int>())
+        mutableStateOf(listOf<Int>())
     }
 //    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
     Row(verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.SpaceBetween) {
@@ -248,7 +244,7 @@ fun Game(playerIn: Player, monsterIn: Monster, flagIn: Boolean, healCountIn: Int
                     flag = false
                     playerDices = player.dices
                 } else {
-                    monster.attack(player);
+                    monster.attack(player)
                     flag = true
                     playerDices = monster.dices
                 }

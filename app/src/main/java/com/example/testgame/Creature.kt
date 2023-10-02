@@ -1,7 +1,5 @@
 package com.example.testgame
 
-import java.util.Random
-
 abstract class Creature(
     val attack: Int,
     val defense: Int,
