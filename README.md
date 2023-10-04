@@ -4,5 +4,8 @@
 Степан Сергеев 
 tg: t.me/loqiwen
 
-https://github.com/loqiwen/testGame/assets/109037229/48ae4aa5-ba3b-462d-b3da-252e62fbabf3
+
+
+
+https://github.com/loqiwen/testGame/assets/109037229/770c6d73-684f-4f74-b3b2-00181529ebbb
 
