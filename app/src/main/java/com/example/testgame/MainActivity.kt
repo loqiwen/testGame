@@ -208,35 +208,35 @@ fun Game(playerIn: Player, monsterIn: Monster, flagIn: Boolean, healCountIn: Int
 
                 )
             }
-            if (playerDices[i] == 2) {
+            else if (playerDices[i] == 2) {
                 Image(
                     painter = painterResource(
                         id = R.drawable.d2
                     ), contentDescription = "Image", modifier = Modifier.size(20.dp)
                 )
             }
-            if (playerDices[i] == 3) {
+            else if (playerDices[i] == 3) {
                 Image(
                     painter = painterResource(
                         id = R.drawable.d3
                     ), contentDescription = "Image", modifier = Modifier.size(20.dp)
                 )
             }
-            if (playerDices[i] == 4) {
+            else if (playerDices[i] == 4) {
                 Image(
                     painter = painterResource(
                         id = R.drawable.d4
                     ), contentDescription = "Image", modifier = Modifier.size(20.dp)
                 )
             }
-            if (playerDices[i] == 5) {
+            else if (playerDices[i] == 5) {
                 Image(
                     painter = painterResource(
                         id = R.drawable.d5
                     ), contentDescription = "Image", modifier = Modifier.size(20.dp)
                 )
             }
-            if (playerDices[i] == 6)
+            else if (playerDices[i] == 6)
                 Image(
                     painter = painterResource(
                         id = R.drawable.d6

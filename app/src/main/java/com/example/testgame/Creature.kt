@@ -28,7 +28,6 @@ class Player(attack: Int, deffence: Int, health: Int) : Creature(attack, deffenc
             dices.add(diceRoll)
             if (diceRoll >= 5) {
                 attackSuccessful = true
-                return@repeat
             }
         }
 
@@ -61,7 +60,6 @@ class Monster(attack: Int, defence: Int, health: Int) : Creature(attack, defence
             dices.add(diceRoll)
             if (diceRoll >= 5) {
                 attackSuccessful = true
-                return@repeat
             }
         }
         if (attackSuccessful) {
