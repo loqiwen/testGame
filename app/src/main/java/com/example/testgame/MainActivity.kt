@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.LinearProgressIndicator
@@ -99,6 +101,9 @@ fun Game(playerIn: Player, monsterIn: Monster, flagIn: Boolean, healCountIn: Int
     var flag by remember {
         mutableStateOf(flagIn)
     }
+    var openInformation by remember {
+        mutableStateOf(false)
+    }
     var healCount by remember {
         mutableStateOf(healCountIn)
     }
@@ -118,8 +123,15 @@ fun Game(playerIn: Player, monsterIn: Monster, flagIn: Boolean, healCountIn: Int
         mutableStateOf(listOf<Int>())
     }
 //    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-    Row(verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.SpaceBetween) {
-        Button(onClick = { healFlag = true }) {
+    Row(
+        verticalAlignment = Alignment.Top,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.padding(5.dp)
+    ) {
+        Button(
+            onClick = { healFlag = true },
+            colors = ButtonDefaults.buttonColors(Color(125, 70, 125))
+        ) {
 
             Image(
                 painter = painterResource(
@@ -143,7 +155,16 @@ fun Game(playerIn: Player, monsterIn: Monster, flagIn: Boolean, healCountIn: Int
                 ).show()
             }
         }
-        Button(onClick = { reload = true }) {
+        Button(
+            onClick = { openInformation = true },
+            colors = ButtonDefaults.buttonColors(Color(125, 70, 125))
+        ) {
+            Text(text = "Узнать информацию об игре")
+        }
+        Button(
+            onClick = { reload = true },
+            colors = ButtonDefaults.buttonColors(Color(125, 70, 125))
+        ) {
             Image(
                 painter = painterResource(
                     id = R.drawable.baseline_refresh_24
@@ -152,6 +173,30 @@ fun Game(playerIn: Player, monsterIn: Monster, flagIn: Boolean, healCountIn: Int
         }
 
     }
+
+    if (openInformation) {
+        AlertDialog(
+            modifier = Modifier.wrapContentSize(),
+            onDismissRequest = { openInformation = false },
+            text = {
+                Text(
+                    "Монстр \n    Атака: " + monster.attack + "\n    Защита: " + monster.defense +
+                            "\n Игрок \n    Атака: " + player.attack + "\n    Защита: " + player.defense
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        openInformation = false
+                    }, colors = ButtonDefaults.buttonColors(Color(125, 70, 125))
+                ) {
+                    Text("Закрыть")
+                }
+
+            }
+        )
+    }
+
 
     Row(horizontalArrangement = Arrangement.SpaceAround, verticalAlignment = Alignment.Bottom) {
         for (i in playerDices.indices) {
@@ -231,6 +276,7 @@ fun Game(playerIn: Player, monsterIn: Monster, flagIn: Boolean, healCountIn: Int
             progress = (monster.health.toFloat() / monster.maxHealth.toFloat())
         )
 
+
     }
 
 
@@ -251,8 +297,7 @@ fun Game(playerIn: Player, monsterIn: Monster, flagIn: Boolean, healCountIn: Int
             modifier = Modifier
                 .size(width = 300.dp, height = 50.dp)
                 .padding(bottom = 19.dp),
-            colors = ButtonDefaults.buttonColors(Color(20, 255, 0)
-        )
+            colors = ButtonDefaults.buttonColors(Color(125, 70, 125))
         ) {
             if (flag) Text(text = "Ваш ход") else Text(text = "Ход монстра")
             if (player.isDead(player.health)) {
@@ -273,8 +318,6 @@ fun Game(playerIn: Player, monsterIn: Monster, flagIn: Boolean, healCountIn: Int
                 reload = true
             }
         }
-
-
     }
 
     if (reload) {
@@ -287,12 +330,3 @@ fun Game(playerIn: Player, monsterIn: Monster, flagIn: Boolean, healCountIn: Int
     }
 
 }
-
-
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview() {
-//    TestGameTheme {
-//        Game()
-//    }
-//}
