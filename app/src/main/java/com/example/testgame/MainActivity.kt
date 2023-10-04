@@ -88,14 +88,15 @@ fun RestartGame() {
     }
     val monster by remember {
         mutableStateOf(Monster((1..30).random(), (1..30).random(), 100))
-
     }
-
-    Game(player, monster, flag, healCount)
+    val playerDices by remember {
+        mutableStateOf(mutableListOf<Int>())
+    }
+    Game(player, monster, flag, healCount, playerDices)
 }
 
 @Composable
-fun Game(playerIn: Player, monsterIn: Monster, flagIn: Boolean, healCountIn: Int) {
+fun Game(playerIn: Player, monsterIn: Monster, flagIn: Boolean, healCountIn: Int, playerDicesIn: MutableList<Int>) {
 
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
     var flag by remember {
@@ -120,7 +121,7 @@ fun Game(playerIn: Player, monsterIn: Monster, flagIn: Boolean, healCountIn: Int
         mutableStateOf(false)
     }
     var playerDices by remember {
-        mutableStateOf(listOf<Int>())
+        mutableStateOf(playerDicesIn)
     }
 //    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
     Row(
@@ -143,7 +144,7 @@ fun Game(playerIn: Player, monsterIn: Monster, flagIn: Boolean, healCountIn: Int
                 val context = LocalContext.current
                 Toast.makeText(
                     context,
-                    "Игрок вылечен!Аптечек: " + (4 - healCount).toString(),
+                    "Игрок вылечен! Аптечек: " + (4 - healCount).toString(),
                     Toast.LENGTH_SHORT
                 ).show()
             } else if (healFlag) {
@@ -204,7 +205,7 @@ fun Game(playerIn: Player, monsterIn: Monster, flagIn: Boolean, healCountIn: Int
                 Image(
                     painter = painterResource(
                         id = R.drawable.d1
-                    ), contentDescription = "Image", modifier = Modifier.size(20.dp)
+                    ), contentDescription = "Image", modifier = Modifier.size(15.dp)
 
                 )
             }
@@ -212,35 +213,35 @@ fun Game(playerIn: Player, monsterIn: Monster, flagIn: Boolean, healCountIn: Int
                 Image(
                     painter = painterResource(
                         id = R.drawable.d2
-                    ), contentDescription = "Image", modifier = Modifier.size(20.dp)
+                    ), contentDescription = "Image", modifier = Modifier.size(15.dp)
                 )
             }
             else if (playerDices[i] == 3) {
                 Image(
                     painter = painterResource(
                         id = R.drawable.d3
-                    ), contentDescription = "Image", modifier = Modifier.size(20.dp)
+                    ), contentDescription = "Image", modifier = Modifier.size(15.dp)
                 )
             }
             else if (playerDices[i] == 4) {
                 Image(
                     painter = painterResource(
                         id = R.drawable.d4
-                    ), contentDescription = "Image", modifier = Modifier.size(20.dp)
+                    ), contentDescription = "Image", modifier = Modifier.size(15.dp)
                 )
             }
             else if (playerDices[i] == 5) {
                 Image(
                     painter = painterResource(
                         id = R.drawable.d5
-                    ), contentDescription = "Image", modifier = Modifier.size(20.dp)
+                    ), contentDescription = "Image", modifier = Modifier.size(15.dp)
                 )
             }
             else if (playerDices[i] == 6)
                 Image(
                     painter = painterResource(
                         id = R.drawable.d6
-                    ), contentDescription = "Image", modifier = Modifier.size(20.dp)
+                    ), contentDescription = "Image", modifier = Modifier.size(15.dp)
                 )
 
         }
@@ -285,10 +286,12 @@ fun Game(playerIn: Player, monsterIn: Monster, flagIn: Boolean, healCountIn: Int
         Button(
             onClick = {
                 if (flag) {
+                    playerDices = mutableListOf()
                     player.attack(monster)
                     flag = false
                     playerDices = player.dices
                 } else {
+                    playerDices = mutableListOf()
                     monster.attack(player)
                     flag = true
                     playerDices = monster.dices

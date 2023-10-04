@@ -20,7 +20,7 @@ class Player(attack: Int, deffence: Int, health: Int) : Creature(attack, deffenc
     val dices = mutableListOf<Int>()
     fun attack(monster: Monster) {
         val attackModifier = attack - monster.defense + 1
-        val diceRolls = attackModifier.coerceAtLeast(1)
+        val diceRolls = if (attackModifier > 0) attackModifier else 1
         dices.clear()
         var attackSuccessful = false
         repeat(diceRolls) {
@@ -52,8 +52,8 @@ class Monster(attack: Int, defence: Int, health: Int) : Creature(attack, defence
     fun attack(player: Player) {
 
         val attackModifier = attack - player.defense + 1
-        val diceRolls = attackModifier.coerceAtLeast(1)
-
+        val diceRolls = if (attackModifier > 0) attackModifier else 1
+        dices.clear()
         var attackSuccessful = false
         repeat(diceRolls) {
             val diceRoll = (1..6).random()
