@@ -2,7 +2,7 @@
 Тестовое задание для Школы Разработчиков Head and Hands
 
 Степан Сергеев 
-tg: t.me/loqiwen /n
+tg: t.me/loqiwen \n
 
 ссылка на Telegram
 [![Telegram](https://img.shields.io/badge/-Telegram-black?style=for-the-badge&logo=telegram&logoColor)](https://t.me/loqiwen)
